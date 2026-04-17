@@ -17,6 +17,24 @@ This is for people who already have Codex Desktop with Computer Use on a Mac and
 - handles the approval / elicitation round-trip that otherwise causes browser or app access to hang
 - returns final answer text, commentary, startup events, and tool failures
 
+## Companion behavior layer
+
+This repo now also documents the intended calling strategy in:
+
+- `docs/skills/computer-use-human-mode.md`
+
+That companion skill exists because a working bridge is not enough. The calling agent should use Computer Use like a real person using a computer:
+
+- observe the screen
+- click into details when needed
+- scroll when the answer is below the fold
+- dismiss overlays
+- expand hidden content
+- re-check after each action
+- prefer visual understanding when the accessibility tree is not enough
+
+The bridge solves connectivity. The skill defines how to use the bridge well.
+
 ## What it does not do
 
 - it does not bundle Codex Desktop for you
