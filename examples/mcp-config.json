@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "codex-computer-use": {
+      "command": "/absolute/path/to/.venv/bin/codex-computer-use-mcp",
+      "args": []
+    }
+  }
+}

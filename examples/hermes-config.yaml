@@ -1,0 +1,4 @@
+mcp_servers:
+  codex_computer_use:
+    command: /absolute/path/to/.venv/bin/codex-computer-use-mcp
+    args: []
