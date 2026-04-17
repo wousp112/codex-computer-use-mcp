@@ -51,6 +51,15 @@ Especially important for:
 - Notion / Obsidian / document editors
 - desktop apps where the visible UI matters more than the accessibility tree
 
+## Strict human-visibility benchmark mode
+
+When the task is specifically testing whether the agent behaves like a real human reader, use a stricter rule:
+
+- only count content that was actually brought into view through real desktop actions
+- or content that became visible after an explicit detail-page / expand action
+- do not silently count extra text exposed only by the accessibility tree or app-state snapshot as if it had already been read by a human in the viewport
+- if snapshot-only text helps orientation, label it clearly as auxiliary rather than human-visible reading
+
 ## Limits
 
 This philosophy does not override:
