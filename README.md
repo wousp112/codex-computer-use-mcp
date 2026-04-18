@@ -53,13 +53,16 @@ The bridge solves connectivity. The skill defines how to use the bridge well.
 ## Install
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/codex-computer-use-mcp.git
+git clone https://github.com/wousp112/codex-computer-use-mcp.git
 cd codex-computer-use-mcp
-python3 -m venv .venv
+python3.11 -m venv .venv  # strongly preferred on macOS; plain `python3` may bind to an older interpreter
 source .venv/bin/activate
+python --version          # should report 3.11+
 pip install -U pip
 pip install -e .
 ```
+
+If `python3.11` is not on your PATH, use any explicit Python 3.11+ interpreter path instead.
 
 ## Run as an MCP server
 
@@ -171,10 +174,15 @@ If Computer Use can see the app but cannot act, the problem is usually macOS per
 
 ## Local smoke test
 
-Once installed, you can wire it into your MCP client and call:
+Once installed, wire it into your MCP client and verify in this order:
 
-- `codex_computer_use_status`
-- `codex_computer_use_run` with a harmless prompt like `Tell me the current frontmost app.`
+1. `codex_computer_use_status`
+   - confirms the bridge starts
+   - confirms Codex is reachable
+   - confirms the bundled plugin is visible
+2. `codex_computer_use_run` with a harmless prompt like `Tell me the current frontmost app.`
+   - confirms an actual turn works end-to-end
+3. if browser/app access hangs or times out, check the `Approval handling` section above before assuming the bridge is broken
 
 ## License
 
