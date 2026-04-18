@@ -72,6 +72,19 @@ codex-computer-use-mcp
 
 It runs over stdio, so you normally launch it from another MCP client.
 
+## Quickstart
+
+For a first-time local check, the shortest path is:
+
+1. install the package in a fresh Python 3.11+ venv
+2. add the MCP config using `examples/hermes-config.yaml` or `examples/mcp-config.json`
+3. restart your MCP client if needed
+4. call `codex_computer_use_status`
+5. then call `codex_computer_use_run` with:
+   - `Tell me the current frontmost app.`
+
+If step 4 works but step 5 hangs, do not guess: jump straight to `Approval handling` and `Common failure modes` below.
+
 ## Example MCP client config
 
 ### Generic stdio MCP config
@@ -183,6 +196,52 @@ Once installed, wire it into your MCP client and verify in this order:
 2. `codex_computer_use_run` with a harmless prompt like `Tell me the current frontmost app.`
    - confirms an actual turn works end-to-end
 3. if browser/app access hangs or times out, check the `Approval handling` section above before assuming the bridge is broken
+
+## Common failure modes
+
+### 1. `codex_computer_use_status` works, but `codex_computer_use_run` hangs or times out
+
+Most likely cause:
+- an MCP elicitation / approval request was emitted by Codex and not handled the way you expect
+
+What to check:
+- read `Approval handling`
+- verify `CODEX_CU_APPROVAL_MODE`
+- remember that browser/app access may trigger prompts like `Allow Codex to use Google Chrome?`
+
+### 2. The bridge starts, but Computer Use can see apps and cannot act on them
+
+Most likely cause:
+- macOS permissions are missing or incomplete
+
+What to check:
+- Accessibility
+- Apple Events / automation access
+- Screen Recording / privacy prompts
+
+### 3. Install succeeds, but the package runs under the wrong Python
+
+Most likely cause:
+- your venv was created with an older interpreter instead of Python 3.11+
+
+What to check:
+- run `python --version`
+- if needed, recreate the venv explicitly with `python3.11 -m venv .venv`
+
+### 4. The MCP client config looks right, but nothing works
+
+What to check:
+- make sure the command path really points at the installed `codex-computer-use-mcp` executable inside your venv
+- restart the MCP client after editing config
+- test `codex_computer_use_status` before trying a real task
+
+### 5. The bridge is fine, but Codex Desktop itself is not ready
+
+What to check:
+- Codex Desktop is installed
+- the `codex` CLI is on `PATH`
+- the bundled `computer-use` plugin exists in your Codex install
+- if auto-start is disabled, a reachable `codex app-server` is already running
 
 ## License
 
