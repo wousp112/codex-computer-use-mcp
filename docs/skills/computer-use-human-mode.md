@@ -43,6 +43,34 @@ Before declaring failure, it should usually attempt:
 - switching to the correct app/window/tab
 - reading from the visible screen using vision when necessary
 
+## Layer 1: default prohibitions
+
+Unless the user explicitly asks and accepts the trade-off, do not:
+
+- use CDP, Playwright, Selenium, or other browser-internal automation interfaces
+- rely on DOM scraping, source extraction, in-page script injection, or browser-engine remote control
+- treat the browser as a programmable engine instead of a desktop app inside a wider desktop-control task
+- bypass the human-style desktop path just to get the answer faster
+
+Why:
+- lower JS-environment anomaly risk
+- lower automation-exposure risk
+- lower browser-kernel / fingerprint / automation-trace risk
+
+## Layer 2: default allowed aids
+
+These are allowed by default:
+
+- screen observation and visual understanding
+- accessibility tree as a UI-semantic aid
+- app-state snapshot as a current-app-state aid
+- human-style desktop actions such as clicking, scrolling, expanding, opening details, dismissing overlays, and switching windows/tabs
+
+Important:
+- do not ban accessibility tree or app-state snapshot by default
+- they are usually not directly observable by the target platform as a first-class anti-bot signal
+- the bigger operational risk is still mechanical, high-frequency, bulk, or repetitive on-platform behavior
+
 ## When this matters most
 
 Especially important for:
@@ -51,12 +79,19 @@ Especially important for:
 - Notion / Obsidian / document editors
 - desktop apps where the visible UI matters more than the accessibility tree
 
-## Strict human-visibility benchmark mode
+## Layer 3: optional Strict Human-Visibility Benchmark Mode
 
-When the task is specifically testing whether the agent behaves like a real human reader, use a stricter rule:
+This layer is optional, not default.
 
-- only count content that was actually brought into view through real desktop actions
-- or content that became visible after an explicit detail-page / expand action
+status: false
+
+Natural-language switch:
+- if `status = true`, also apply the strict benchmark rules below
+- if `status = false`, ignore the strict benchmark rules below and continue with the default execution layers
+
+When `status = true`:
+- only count content actually brought into view through real desktop actions
+- or content made visible by an explicit detail-page / expand action
 - do not silently count extra text exposed only by the accessibility tree or app-state snapshot as if it had already been read by a human in the viewport
 - if snapshot-only text helps orientation, label it clearly as auxiliary rather than human-visible reading
 
